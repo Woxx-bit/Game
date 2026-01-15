@@ -1,33 +1,52 @@
-import random  
+import random
 
-# 1. Генерация случайного числа от 1 до 100
-secret_number = random.randint(1, 100) 
-print(f"Число сгенерировано! (от 1 до 100)")
+games_played = 0
+games_won = 0
 
-while True:  # Бесконечный цикл для повторных попыток при некорректном вводе
-    try:
-        # input() запрашивает ввод от пользователя, возвращает строку
-        user_input = input("Введите число от 1 до 100: ")
-        
-        user_number = int(user_input)
-        
-        # Проверяем, что число в нужном диапазоне
-        if 1 <= user_number <= 100:
-            break  # Выходим из цикла при корректном вводе
-        else:
-            print("Ой, число должно быть от 1 до 100!")
-            
-    except ValueError:  # Обработка ошибки, если введено не число
-        print("Нет, введите целое число!")
+while True:  # Основной игровой цикл
+    # Генерация числа
+    secret_number = random.randint(1, 100)
+    print(f"\nЧисло сгенерировано! (от 1 до 100)")
 
-# Выводим результаты
-print(f"Ваше число: {user_number}")
-print(f"А мы загадали: {secret_number}")
+    while True:
+        try:
+            user_input = input("Давай проверим твою интуицию и дар предвидения. Введи число от 1 до 100: ")
+            user_number = int(user_input)
+            if 1 <= user_number <= 100:
+                break
+            else:
+                print("Ой, число должно быть от 1 до 100!")
+        except ValueError:
+            print("Нет, введи целое число!")
 
-# Дополнительно: сравнение чисел
-if user_number == secret_number:
-    print("Надо же! Вы угадали !")
-elif user_number < secret_number:
-    print(f"Ха-ха! Ваше число ({user_number}) меньше загаданного")
-else:
-    print(f"Упс, Ваше число ({user_number}) больше загаданного")
+    # Результаты раунда
+    print(f"Твоё число: {user_number}")
+    print(f"А у меня: {secret_number}")
+
+    games_played += 1
+    if user_number == secret_number:
+        print("Надо же! Как тебя это удалось? Это именно то число!!!")
+        games_won += 1
+    elif user_number < secret_number:
+        print(f"Ха-ха! Твоё число ({user_number}) меньше загаданного, интуиция - это не твоё")
+    else:
+        print(f"Упс, Твоё число ({user_number}) больше загаданного, попробуй ещё раз")
+
+    # Статистика
+    print(f"\nСтатистика: игр: {games_played}, побед: {games_won}")
+
+    # Меню выхода
+    while True:
+        choice = input("Выбери действие (1 - играть ещё раз или 2 - Выйти): ").strip()
+        if choice in ["1", "2"]:
+            break
+        print(" Введи 1 или 2")
+
+    if choice == "2":
+        print(f"\n{'='*50}")
+        print("Спасибо за игру! До свидания!")
+        if games_played > 0:
+            print(f"Итог: {games_played} игр, {games_won} побед")
+            print(f"Процент побед: {(games_won / games_played) * 100:.1f}%")
+        print(f"{'='*50}")
+        break  
